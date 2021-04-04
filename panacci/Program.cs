@@ -62,7 +62,7 @@ namespace panacci
                     double ted = getTime();
                     if (ted > levy.casStrely + 1000)
                     {
-                        strely.Add(new Strela(levy.x, levy.y, true, true));
+                        strely.Add(new Strela(levy.x, levy.y + 3 * levy.w, true, true));
                         levy.casStrely = ted;
                     }
                 }
@@ -72,7 +72,7 @@ namespace panacci
                     double ted = getTime();
                     if (ted > levy.casStrely + 1000)
                     {
-                        strely.Add(new Strela(levy.x, levy.y, false, true));
+                        strely.Add(new Strela(levy.x, levy.y + 3 * levy.w, false, true));
                         levy.casStrely = ted;
                     }
                 }
@@ -98,7 +98,7 @@ namespace panacci
                     double ted = getTime();
                     if (ted > pravy.casStrely + 1000)
                     {
-                        strely.Add(new Strela(pravy.x, pravy.y, true, false));
+                        strely.Add(new Strela(pravy.x, pravy.y + 3 * pravy.w, true, false));
                         pravy.casStrely = ted;
                     }
                 }
@@ -107,7 +107,7 @@ namespace panacci
                     double ted = getTime();
                     if (ted > pravy.casStrely + 1000)
                     {
-                        strely.Add(new Strela(pravy.x, pravy.y, false, false));
+                        strely.Add(new Strela(pravy.x, pravy.y + 3 * pravy.w, false, false));
                         pravy.casStrely = ted;
                     }
                 }
@@ -169,14 +169,11 @@ namespace panacci
                 {
                     tmp.Add(s);
                 }
-                if (pravy != null && s.leveho 
-                    && s.x >= pravy.x && s.x < pravy.x + 1 / 24.0 
-                    && s.y >= pravy.y - 1/48.0 && s.y < pravy.y + 1/12.0)
+                if (pravy != null && s.leveho && s.intersect(pravy))
                 {
                     pravy = null;
                 }
-                if (levy != null && !s.leveho && s.x >= levy.x && s.x < levy.x + 1 / 24.0
-                    && s.y >= levy.y - 1 / 48.0 && s.y < levy.y + 1 / 12.0)
+                if (levy != null && !s.leveho && s.intersect(levy))
                 {
                     levy = null;
                 }
@@ -188,9 +185,6 @@ namespace panacci
         {
             pictureBox.Size = ClientSize;
         }
-
-
-
 
 
         private void onPaint(object sender, PaintEventArgs e)

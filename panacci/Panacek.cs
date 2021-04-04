@@ -3,12 +3,9 @@ using System.Windows.Forms;
 
 namespace panacci
 {
-    class Panacek
+    class Panacek : Predek
     {
-        public double x;
-        public double y;
-        public double dx;
-        public double dy;
+
         public Color c;
         public double casStrely = 0;
 
@@ -34,7 +31,7 @@ namespace panacci
             up = false;
             pressX = 0;
         }
-        public void next()
+        public override bool next()
         {
             if (pressX > 0)
             {
@@ -74,25 +71,32 @@ namespace panacci
             {
                 x = 0.1;
             }
+
+            return true;
         }
 
 
-        public void draw(PictureBox pictureBox, Graphics g)
+        public override void draw(PictureBox pictureBox, Graphics g)
         {
-            Pen p = new Pen(c, 10);
-            int sz = pictureBox.Size.Width < pictureBox.Size.Height ? pictureBox.Size.Width : pictureBox.Size.Height;
-            if (sz < 100)
-            {
-                sz = 100;
-            }
-            sz /= 2;
+            int penWidth = 10;
+            Pen p = new Pen(c, penWidth);
+            int sz = getScreenSize(pictureBox);
+            int length = sz / 24;
+ 
             int ix = (int)(x * pictureBox.Size.Width);
             int iy = (int)(y * pictureBox.Size.Height);
 
-            g.DrawEllipse(p, new Rectangle(ix, iy - sz / 12, sz / 12, sz / 12));
-            g.DrawEllipse(p, new Rectangle(ix, iy, sz / 12, sz / 6));
-            g.DrawLine(p, new Point(ix + sz / 24, iy + sz / 6), new Point(ix, iy + sz / 6 + sz / 6));
-            g.DrawLine(p, new Point(ix + sz / 24, iy + sz / 6), new Point(ix + sz / 12, iy + sz / 6 + sz / 6));
+            // hlava
+            g.DrawEllipse(p, new Rectangle(ix, iy, length, length));
+            // tělo
+            g.DrawEllipse(p, new Rectangle(ix, iy + length, length, 2 * length));
+            // nohy
+            g.DrawLine(p, new Point(ix + length / 2, iy + 3 * length), new Point(ix, iy + 5 * length));
+            g.DrawLine(p, new Point(ix + length / 2, iy + 3 * length), new Point(ix + length, iy + 5 * length));
+
+
+            w = length / (double)pictureBox.Size.Width;
+            h = 5 * length / (double)pictureBox.Size.Height;
         }
     }
 }

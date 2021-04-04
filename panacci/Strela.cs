@@ -3,12 +3,9 @@ using System.Windows.Forms;
 
 namespace panacci
 {
-    class Strela
+    class Strela : Predek
     {
         public bool leveho;
-        public double x;
-        public double y;
-        double dx;
 
         public Strela(double x, double y, bool left, bool leveho)
         {
@@ -18,7 +15,7 @@ namespace panacci
             dx = left ? -0.01 : 0.01;
         }
 
-        public bool next()
+        public override bool next()
         {
             x += dx;
             if (x > 1 || x < 0)
@@ -28,19 +25,22 @@ namespace panacci
             return true;
         }
 
-        public void draw(PictureBox pictureBox, Graphics g)
+        public override void draw(PictureBox pictureBox, Graphics g)
         {
-            Pen p = new Pen(Color.Red, 7);
-            int sz = pictureBox.Size.Width < pictureBox.Size.Height ? pictureBox.Size.Width : pictureBox.Size.Height;
-            if (sz < 100)
-            {
-                sz = 100;
-            }
-            sz /= 2;
+            
+            int sz = getScreenSize(pictureBox);
+           
             int ix = (int)(x * pictureBox.Size.Width);
             int iy = (int)(y * pictureBox.Size.Height);
 
-            g.DrawLine(p, new Point(ix, iy), new Point(ix + sz / 24, iy));
+            int length = sz / 48;
+            int height = 7;
+            Pen p = new Pen(Color.Red, height);
+
+            g.DrawLine(p, new Point(ix, iy), new Point(ix + length, iy));
+
+            w = length / (double)pictureBox.Size.Width;
+            h = height / (double)pictureBox.Size.Height;
         }
 
     }
