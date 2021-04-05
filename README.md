@@ -3,7 +3,7 @@ A simple game for two players (on the same keyboard) written in csharp and windo
 
 build and run in console with mono on unik like systems:
 $ cd panacci
-$ mcs -r:System.Drawing -r:System.Windows.Forms -out:panaci Program.cs 
+$ mcs -r:System.Drawing -r:System.Windows.Forms -out:panaci *.cs 
 $ ./panaci
 
 build and run in your IDE (tested with Monodevelop on Linux, and MS Visual Studio on MS Windows):
